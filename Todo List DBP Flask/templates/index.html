@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <p>Computer Science</p>
+    <h1>Tasks</h1>
+    <button onclick="completeAll()">Complete All</button>
+    <br>
+    <br>
+    <form method="POST" action="/add-task">
+        <input name="task" autocomplete="off" autofocus placeholder="New Task" type="text">
+        <input type="submit">
+    </form>
+    <ol>
+        {% for task in tasks %}
+        <li>
+            <input type="checkbox">
+            <span>{{ task }}</span>
+            <button onclick="deleteTask(this)">X</button>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <script>
+        function completeAll() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach((checkbox) => {
+                checkbox.checked = true;
+                const taskText = checkbox.nextElementSibling;
+                taskText.style.textDecoration = "line-through";
+            });
+        }
+
+        function deleteTask(button) {
+            const li = button.parentNode;
+            li.remove();
+        }
+    </script>
+</body>
+</html>
